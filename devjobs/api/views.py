@@ -2,16 +2,20 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Company, Job
+from .models import Job
 from .serializers import JobSerializer
 
 # Create your views here.
 class JobListAPIView(APIView):
+    authentication_classes = []
+    permission_classes = []
+    
     def get(self, request):
         data = Job.objects.all().order_by('-created_at')
         serialized_data = JobSerializer(data, many=True)
         return Response({'data':serialized_data.data})
 
+class JobCreateAPIView(APIView):
     def post(self, request):
         parsed_data = request.data
         deserialized_data = JobSerializer(data=parsed_data)
