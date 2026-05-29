@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status
 from .models import Job
 from .serializers import JobSerializer
 
 # Create your views here.
+def frontend(request):
+    return render(request, "index.html")
+    
 class JobListAPIView(APIView):
     authentication_classes = []
     permission_classes = []

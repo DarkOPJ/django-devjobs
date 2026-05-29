@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import logo from "/job.ico";
+import logo from "../assets/images/job.png";
 import { FaEye, FaLock, FaMailBulk, FaUser } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa6';
 
