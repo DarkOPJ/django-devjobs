@@ -1,6 +1,8 @@
-// const API_TO_USE = '/jobApi'
-// const API_TO_USE = 'https://jsondevdessert.onrender.com/jobs'
-const API_TO_USE = 'http://localhost:8000/jobs'
+
+const API_TO_USE =
+  import.meta.env.VITE_NODE_ENV === "development"
+    ? "http://localhost:8000/jobs"
+    : import.meta.env.VITE_API + "/jobs";
 
 /** Creates an Error that carries the HTTP status code so callers can detect 401/403. */
 const httpError = (status, message) => {
