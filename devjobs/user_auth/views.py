@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserModelSerializer
@@ -30,7 +32,7 @@ class LoginAPIView(APIView):
                     'email': user.email,
                 }})
 
-        return Response({'error':'Username or password is incorrect.'})
+        return Response({'error':'Username or password is incorrect.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class RegisterAPIView(APIView):
     authentication_classes = []
@@ -51,8 +53,13 @@ class RegisterAPIView(APIView):
         }, status=status.HTTP_201_CREATED)
 
 class LogoutAPIView(APIView):
+    # Explicitly require token auth so request.auth is always populated
+    # when a valid token is sent, regardless of global defaults.
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        if request.auth:
-            request.auth.delete()
-        return Response({'msg': 'User logged out.'})
+        # request.auth is the Token object — delete it from the DB
+        request.auth.delete()
+        return Response({'msg': 'User logged out.'}, status=status.HTTP_200_OK)
 
