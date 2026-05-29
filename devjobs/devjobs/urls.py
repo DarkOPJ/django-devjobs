@@ -15,10 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.conf import settings
+from django.conf.urls.static import static
+from api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # API routes
     path('', include('api.urls')),
-    path('auth/', include('user_auth.urls'))
+    path('auth/', include('user_auth.urls')),
+]
+
+# Serve Vite assets
+urlpatterns += static(
+    settings.STATIC_URL,
+    document_root=settings.STATICFILES_DIRS[0]
+)
+
+# React catch-all route (MUST BE LAST)
+urlpatterns += [
+    re_path(r'^.*$', views.frontend),
 ]

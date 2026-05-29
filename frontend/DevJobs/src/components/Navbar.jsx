@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import logo from "/job.ico";
+import logo from "../assets/images/job.png";
 import { AuthContext } from "../context/AuthContext";
 import { getAvatarForUser } from "../utils/avatarGenerator";
 
